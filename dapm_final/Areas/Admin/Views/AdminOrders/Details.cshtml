@@ -1,0 +1,98 @@
+﻿@model dapm_final.Models.Order
+
+@{
+    ViewData["Title"] = "Thông Tin Đơn Hàng #" + Model.OrderId;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<OrderDetail> orderDetails = ViewBag.ChiTiet;
+} @* xong *@
+
+<div class="page-header">
+    <h2 class="header-title"></h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Home" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang Chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh Sách Đơn Hàng</a>
+            <span class="breadcrumb-item active">Chi Tiết Đơn Hàng</span>
+        </nav>
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div id="invoice" class="p-h-30">
+                <div class="row m-t-20 lh-2">
+                    <div class="col-sm-6">
+                        <h3 class="p-l-10 m-t-10">Thông Tin Đơn Hàng</h3>
+                        <address class="p-l-10 m-t-20">
+                            <span>Họ Và Tên: @Model.Customer.FullName</span><br>
+                            <span>Địa Chỉ: @Model.Customer.Address</span><br>
+                            <span>Số Điện Thoại: @Model.Customer.Phone</span>
+                        </address>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="m-t-60">
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">Mã Đơn Hàng: </span>
+                            </div>
+                            <div class="float-right">#@Model.OrderId</div>
+                        </div>
+                        <div class="text-dark text-uppercase d-inline-block">
+                            <span class="font-weight-semibold text-dark">Ngày Đặt Hàng: </span>
+                        </div>
+                        <div class="float-right">@Model.OrderDate</div>
+                        <br />
+                        <div class="text-dark text-uppercase d-inline-block">
+                            <span class="font-weight-semibold text-dark">Ngày Ship Hàng: </span>
+                        </div>
+                        <div class="float-right">@Model.ShipDate</div>
+                        <br />
+                        <div class="text-dark text-uppercase d-inline-block">
+                            <span class="font-weight-semibold text-dark">Trạng Thái Đơn Hàng: </span>
+                        </div>
+                        <div class="float-right">@Model.TransactStatus.Status</div>
+                    </div>
+                </div>
+                <div class="m-t-20">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (orderDetails != null && orderDetails.Count() > 0)
+                                {
+                                    int i = 1;
+                                    foreach (var item in orderDetails)
+                                    {
+                                        string url = $"/{item.Product.Alias}-{item.Product.ProductId}.html";
+                                        <tr>
+                                            <th>@i</th>
+                                            <td><a target="_blank" href="@url">@item.Product.ProductName</a></td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
+                                            <td>@item.Total.Value.ToString("#,##0") VNĐ</td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row m-t-30 lh-1-8">
+                        <div class="col-sm-12">
+                            <div class="float-right text-right">
+                                <h4><span class="font-weight-semibold text-dark">Tổng Tiền: </span>@orderDetails.Sum(x =>x.Total).Value.ToString("#,##0") VNĐ</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

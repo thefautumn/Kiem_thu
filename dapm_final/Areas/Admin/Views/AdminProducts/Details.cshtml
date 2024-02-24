@@ -1,0 +1,160 @@
+﻿@model dapm_final.Models.Product
+
+@{
+    ViewData["Title"] = "Chi Tiết Sản Phẩm " + Model.ProductName;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+} @* xong *@
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang Chủ</a>
+            <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Index" class="breadcrumb-item">Danh Sách Sản Phẩm</a>
+            <span class="breadcrumb-item active">Thông Tin Sản Phẩm: @Model.ProductName</span>
+        </nav>
+    </div>
+</div>
+
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="avatar avatar-image rounded" style="height:70px; width:70px">
+                <img src="~/images/products/@Model.Thumb" alt="@Model.Title" />
+            </div>
+            <div class="m-l-15">
+                <h4 class="m-b-0">@Model.ProductName</h4>
+                <p class="text-muted m-b-0">ID: #@Model.ProductId</p>
+            </div>
+        </div>
+        <div class="m-b-15">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@Model.ProductId">Chỉnh Sửa</a>
+        </div>
+    </div>
+</div>
+
+<div class="card-body">
+    <h4 class="card-title">Thông Tin Sản Phẩm: @Model.ProductName</h4>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td>ID:</td>
+                    <td class="text-dark font-weight-semibold">@Model.ProductId</td>
+                </tr>
+                <tr>
+                    <td>Tên Sản Phẩm:</td>
+                    <td>@Model.ProductName</td>
+                </tr>
+                <tr>
+                    <td>Mô Tả Ngắn:</td>
+                    <td>@Model.ShortDesc</td>
+                </tr>
+                <tr>
+                    <td>Giá:</td>
+                    <td>@Model.Price</td>
+                </tr>
+                <tr>
+                    <td>Discount:</td>
+                    <td>@Model.Discount</td>
+                </tr>
+                <tr>
+                    <td>Trạng Thái:</td>
+                    <td>
+                        @if (Model.Active)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bestseller:</td>
+                    <td>
+                        @if (Model.BestSellers)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>HomeFlag:</td>
+                    <td>
+                        @if (Model.HomeFlag)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Danh Mục:</td>
+                    <td>@Model.Cat.CatName</td>
+                </tr>
+                <tr>
+                    <td>Ngày Tạo:</td>
+                    <td>@Model.DateCreated</td>
+                </tr>
+                <tr>
+                    <td>Ngày Chỉnh Sửa:</td>
+                    <td>@Model.DateModified</td>
+                </tr>
+                <tr>
+                    <td>Tiêu Đề:</td>
+                    <td>@Model.Title</td>
+                </tr>
+                <tr>
+                    <td>MetaDesc:</td>
+                    <td>@Model.MetaDesc</td>
+                </tr>
+                <tr>
+                    <td>MetaKey:</td>
+                    <td>@Model.MetaKey</td>
+                </tr>
+                <tr>
+                    <td>Tags:</td>
+                    <td>@Model.Tags</td>
+                </tr>
+                <tr>
+                    <td>Ảnh Đại Diện:</td>
+                    <td>
+                        <img width="200" height="200" src="~/images/products/@Model.Thumb" alt="@Model.Title" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mô Tả Sản Phẩm:</td>
+                    <td>@Html.Raw(Model.Description)</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

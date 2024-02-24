@@ -1,0 +1,147 @@
+﻿@model dapm_final.Models.News
+
+@{
+    ViewData["Title"] = "Xác Nhận Xoá Tin Tức " + Model.Title;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+} @* xong *@
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang Chủ</a>
+            <a asp-action="Index" asp-controller="AdminNews" asp-area="Admin" class="breadcrumb-item">Danh Sách Tin Tức</a>
+            <span class="breadcrumb-item active">Xác Nhận Xoá Tin Tức: @Model.Title</span>
+        </nav>
+    </div>
+</div>
+
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="avatar avatar-image rounded" style="height:70px; width:70px">
+                <img src="~/images/news/@Model.Thumb" alt="@Model.Title" />
+            </div>
+            <div class="m-l-15">
+                <h4 class="m-b-0">@Model.Title</h4>
+                <p class="text-muted m-b-0">ID: #@Model.PostId</p>
+            </div>
+        </div>
+        <div class="m-b-15">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminNews" asp-action="Edit" asp-route-id="@Model.PostId">Chỉnh Sửa</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="card-body">
+    <h4 class="card-title">Thông Tin Tin Tức: @Model.Title</h4>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td>ID:</td>
+                    <td class="text-dark font-weight-semibold">@Model.PostId</td>
+                </tr>
+                <tr>
+                    <td>Tên Tin Tức:</td>
+                    <td>@Model.Title</td>
+                </tr>
+                <tr>
+                    <td>Scontents</td>
+                    <td>@Model.Scontents</td>
+                </tr>
+                <tr>
+                    <td>Alias:</td>
+                    <td>@Model.Alias</td>
+                </tr>
+                <tr>
+                    <td>MetaKey:</td>
+                    <td>@Model.MetaKey</td>
+                </tr>
+                <tr>
+                    <td>MetaDesc:</td>
+                    <td>@Model.MetaDesc</td>
+                </tr>
+                <tr>
+                    <td>Ngày Tạo:</td>
+                    <td>@Model.CreatedDate</td>
+                </tr>
+                <tr>
+                    <td>Public:</td>
+                    <td>
+                        @if (Model.Published)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>IsNewfeed:</td>
+                    <td>
+                        @if (Model.IsNewfeed)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>IsHot:</td>
+                    <td>
+                        @if (Model.IsHot)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Ảnh Đại Diện:</td>
+                    <td>
+                        <img width="200" height="200" src="~/images/news/@Model.Thumb" alt="@Model.Title" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mô Tả Tin Tức:</td>
+                    <td>@Html.Raw(Model.Contents)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <form asp-controller="AdminNews" asp-action="Delete" asp-route-id="@Model.PostId">
+                            <input type="hidden" asp-for="PostId" />
+                            <input type="submit" value="Xác Nhận Xóa" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

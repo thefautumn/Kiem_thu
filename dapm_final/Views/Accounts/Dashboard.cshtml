@@ -1,0 +1,143 @@
+﻿@model dapm_final.Models.Customer
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Order> DanhSachDonHang = ViewBag.DonHang;
+    dapm_final.ModelViews.ChangePasswordViewModel changePassword = new dapm_final.ModelViews.ChangePasswordViewModel();
+    dapm_final.ModelViews.EditProfileViewModel editProfile = new dapm_final.ModelViews.EditProfileViewModel();
+} @* xong *@
+
+<main class="main-content">
+    <div class="account-page-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <ul class="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="account-dashboard-tab" data-bs-toggle="tab" href="#account-dashboard" role="tab" aria-controls="account-dashboard" aria-selected="true">Thông Tin Tài Khoản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-orders-tab" data-bs-toggle="tab" href="#account-orders" role="tab" aria-controls="account-orders" aria-selected="false">Danh Sách Đơn Hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Thay Đổi Mật Khẩu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-profile-tab" data-bs-toggle="tab" href="#account-profile" role="tab" aria-controls="account-profile" aria-selected="false">Thay Đổi Thông Tin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-logout-tab" href="dang-xuat.html" role="tab" aria-selected="false">Đăng Xuất</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-content myaccount-tab-content" id="account-page-tab-content">
+                        <div class="tab-pane fade show active" id="account-dashboard" role="tabpanel" aria-labelledby="account-dashboard-tab">
+                            <div class="myaccount-dashboard">
+                                <p>
+                                    Xin Chào, <b>@Model.FullName</b>
+                                </p>
+                                <p>Email: @Model.Email</p>
+                                <p>Số Điện Thoại: @Model.Phone</p>
+                                <p>Địa Chỉ: @Model.Address</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
+                            <div class="myaccount-orders">
+                                <h4 class="small-title">DANH SÁCH ĐƠN HÀNG</h4>
+                                @if (DanhSachDonHang != null && DanhSachDonHang.Count() > 0)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Ngày Mua Hàng</th>
+                                                    <th>Ngày Ship Hàng</th>
+                                                    <th>Trạng Thái</th>
+                                                </tr>
+                                                @foreach (var item in DanhSachDonHang)
+                                                {
+                                                    <tr>
+                                                        <td><a class="account-order-id" href="javascript:void(0)">#@item.OrderId</a></td>
+                                                        <td>@item.OrderDate</td>
+                                                        <td>@item.ShipDate</td>
+                                                        <td>@item.TransactStatus.Status</td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" class="xemdonhang" data-madonhang="@item.OrderId">Xem Đơn Hàng</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <hr />
+                                        <div id="records_table_oder">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p>Chưa Có Đơn Hàng!</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-address" role="tabpanel" aria-labelledby="account-address-tab">
+                            <div class="myaccount-address">
+                                <p>The following addresses will be used on the checkout page by default.</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="small-title">BILLING ADDRESS</h4>
+                                        <address>
+                                            @Model.Address
+                                        </address>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="small-title">SHIPPING ADDRESS</h4>
+                                        <address>
+                                            @Model.Address
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+                            @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
+                        </div>
+                        <div class="tab-pane fade" id="account-profile" role="tabpanel" aria-labelledby="account-profile-tab">
+                             @await Html.PartialAsync("_EditProfilePartialView", editProfile)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".xemdonhang").click(function () {
+                var madonhang = $(this).attr("data-madonhang")
+                $.ajax({
+                    url: '/DonHang/Details',
+                    datatype: "json",
+                    type: "POST",
+                    data: { id: madonhang },
+                    async: true,
+                    success: function (results) {
+                        $("#records_table_oder").html("");
+                        $("#records_table_oder").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@model dapm_final.Models.Role
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa Quyền Truy Cập " + Model.RoleName;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@* xong *@
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang Chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Danh Sách Quyền Truy Cập</a>
+            <span class="breadcrumb-item active">Chỉnh Sửa Quyền Truy Cập: @Model.RoleName</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Thông Tin Quyền Truy Cập: @Model.RoleName</h4>
+        <form asp-action="Edit" asp-route-id="@Model.RoleId" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RoleId" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="col-sm-2 col-form-label" style="max-width: 30%">RoleName</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" asp-for="RoleName" placeholder="RoleName">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="col-sm-2 col-form-label" style="max-width: 30%">Description</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" asp-for="Description" placeholder="Description">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
